@@ -2373,7 +2373,7 @@ contract NBUNIERC20 is Context, INBUNIERC20, Ownable {
         _mint(address(this), initDevAddr, initialSupply);
         adminEnableEmergencyWithdraw = false;
         stoppedLPEvent = false;
-        contractStartTimestamp = block.timestamp.add(5 minutes);// 1603652400 //Sunday, 25-Oct-20 19:00:00 UTC
+        contractStartTimestamp = 1603652400 //Sunday, 25-Oct-20 19:00:00 UTC
         uniswapRouterV2 = IUniswapV2Router02(router != address(0) ? router : 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D); // For testing
         uniswapFactory = IUniswapV2Factory(factory != address(0) ? factory : 0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f); // For testing
         createUniswapPairMainnet();
