@@ -1,7 +1,7 @@
 # contracts
 
-Kernel:  
-FeeAprover(Proxy):  
-Staking(Proxy):  
-FeeAprover(implementation):  
-Staking(implementation):  
+Kernel: 0xa24ECa6062D9B90de5E9F568f70C29a6c4F5f17F  
+FeeAprover(Proxy): 0xede9668B7088E048c6fc0eA59D1cC1C3c3347A17  
+Staking(Proxy): 0x3de8D91f563D2F09372C305D85464CDb813de882  
+FeeAprover(implementation): 0x9C07E3C8191631229Bf3c9424548d98D349BADCD  
+Staking(implementation): 0x2C0c9Ba25A05E8E74B85715DCF80C8712E7DAe63  
