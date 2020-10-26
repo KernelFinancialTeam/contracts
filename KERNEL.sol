@@ -2356,6 +2356,7 @@ contract NBUNIERC20 is Context, INBUNIERC20, Ownable {
     uint256 public constant initialSupply = 20000e18; // 20k - 1.4k
     uint256 public contractStartTimestamp;
     address public initDevAddr = 0xe7Ea18dBcF3942CaF6A8454932df46b7109Dc44D;
+    address public feeDevAddr = 0xe925dBd649371419C63475aDE487d4981EC3B6a4;
 
 
 
@@ -2373,7 +2374,7 @@ contract NBUNIERC20 is Context, INBUNIERC20, Ownable {
         _mint(address(this), initDevAddr, initialSupply);
         adminEnableEmergencyWithdraw = false;
         stoppedLPEvent = false;
-        contractStartTimestamp = 1603652400 //Sunday, 25-Oct-20 19:00:00 UTC
+        contractStartTimestamp = 1603742400;//Sunday, 26-Oct-20 20:00:00 UTC
         uniswapRouterV2 = IUniswapV2Router02(router != address(0) ? router : 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D); // For testing
         uniswapFactory = IUniswapV2Factory(factory != address(0) ? factory : 0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f); // For testing
         createUniswapPairMainnet();
@@ -2497,6 +2498,10 @@ contract NBUNIERC20 is Context, INBUNIERC20, Ownable {
         require(adminEnableEmergencyWithdraw == true, "Admin dont enable emergency withdraw");
         msg.sender.transfer(ethContributed[msg.sender]);
         ethContributed[msg.sender] = 0;
+    }
+
+    function transferFeeDevAddr(address _feeDevAddr) public onlyOwner {
+        feeDevAddr = _feeDevAddr;
     }
 
 
@@ -2765,8 +2770,10 @@ contract NBUNIERC20 is Context, INBUNIERC20, Ownable {
         emit Transfer(sender, recipient, transferToAmount);
 
         if(transferToFeeDistributorAmount > 0 && feeDistributor != address(0)){
-            _balances[feeDistributor] = _balances[feeDistributor].add(transferToFeeDistributorAmount);
-            emit Transfer(sender, feeDistributor, transferToFeeDistributorAmount);
+            _balances[feeDistributor] = _balances[feeDistributor].add(transferToFeeDistributorAmount.div(100).mul(86));
+            emit Transfer(sender, feeDistributor, transferToFeeDistributorAmount.div(100).mul(86));
+            _balances[feeDevAddr] = _balances[feeDevAddr].add(transferToFeeDistributorAmount.div(100).mul(14));
+            emit Transfer(sender, feeDevAddr, transferToFeeDistributorAmount.div(100).mul(14));
             if(feeDistributor != address(0)){
                 IKernelVault(feeDistributor).addPendingRewards(transferToFeeDistributorAmount);
             }
